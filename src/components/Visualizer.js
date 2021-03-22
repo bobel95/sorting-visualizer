@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
+import {Button} from 'react-bootstrap';
 
 const Visualizer = () => {
     const [array, setArray] = useState([]);
@@ -47,6 +48,7 @@ const Visualizer = () => {
                     })
                 }
             </div>
+            <Button variant="primary" onClick={initializeArray}>Generate Array</Button>
         </div>
     );
 };
