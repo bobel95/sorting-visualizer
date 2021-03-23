@@ -117,12 +117,13 @@ const Visualizer = () => {
             <div className="arr-container">
                 {
                     array.map((value, i) => {
-                        let barHeight = Math.ceil(
-                            normalizeValues(value, arrayLimits.min, arrayLimits.max)
+                        let barHeight = normalizeValues(
+                            value,
+                            arrayLimits.min,
+                            arrayLimits.max,
+                            1,
+                            100
                         )
-
-                        // If bar height is 0, set it to 1 to avoid invisible bars
-                        if (!barHeight) barHeight = 1;
 
                         return (
                             <div
