@@ -18,6 +18,7 @@ const Visualizer = () => {
 
     const initializeArray = () => {
         if (isSorting) return;
+        if (isSorted) resetArrayColor();
 
         setIsSorted(false);
         const arr = [];
@@ -96,6 +97,11 @@ const Visualizer = () => {
             setIsSorted(true);
             setIsSorting(false);
         }, arrBars.length * ANIMATION_DELAY);
+    }
+
+    const resetArrayColor = () => {
+        const arrBars = document.querySelectorAll(".arr-element");
+        arrBars.forEach(bar => bar.style.backgroundColor = 'gray');
     }
 
     return (
