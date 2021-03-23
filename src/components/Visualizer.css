@@ -1,0 +1,21 @@
+.main-container {
+    margin: 0 auto;
+    width: 80%;
+    height: 80%;
+    border: 3px solid red;
+}
+
+.arr-container {
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    border: 3px solid black;
+}
+
+.arr-element {
+    width: 30px;
+    background-color: gray;
+    display: inline;
+    margin: 1px;
+}
