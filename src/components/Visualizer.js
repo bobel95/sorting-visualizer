@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
+import insertionSort from "../algorithms/insertionSort";
 import {Button} from 'react-bootstrap';
 
 const Visualizer = () => {
@@ -24,7 +25,11 @@ const Visualizer = () => {
         );
 
     useEffect(initializeArray, []);
-    console.log(arrayLimits);
+
+    const animateInsertionSort = () => {
+        const sortedArr = [...insertionSort(array)];
+        setArray(sortedArr);
+    }
 
     return (
         <div className="main-container">
@@ -48,7 +53,16 @@ const Visualizer = () => {
                     })
                 }
             </div>
-            <Button variant="primary" onClick={initializeArray}>Generate Array</Button>
+            <Button
+                variant="primary"
+                onClick={initializeArray}>
+                Generate Array
+            </Button>
+            <Button
+                variant="primary"
+                onClick={animateInsertionSort}>
+                Insertion Sort
+            </Button>
         </div>
     );
 };
