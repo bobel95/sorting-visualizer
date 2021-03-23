@@ -2,10 +2,11 @@ import {useEffect, useState} from 'react';
 import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
+import getBubbleSortAnimation from "../algorithms/bubbleSort";
 import {Button} from 'react-bootstrap';
 
-const ANIMATION_DELAY = 7;
-const NUM_OF_ARR_ELEMENTS = 100;
+const ANIMATION_DELAY = 5;
+const NUM_OF_ARR_ELEMENTS = 50;
 const SORTED_ARRAY_COLOR = 'green';
 const COMPARED_BARS_COLOR = 'blue';
 
@@ -43,25 +44,31 @@ const Visualizer = () => {
         animateArray(animations);
     }
 
+    const animateBubbleSort = () => {
+        const animations = getBubbleSortAnimation(array);
+        animateArray(animations);
+        // console.log(animations);
+    }
+
     const animateArray = animations => {
         if (isSorting) return;
 
         setIsSorting(true);
 
-        animations.forEach( ([indexesCompared, didSwap], idx) => {
+        animations.forEach( ([comparation, didSwap], idx) => {
             setTimeout(() => {
                 if (!didSwap) {
-                    if (indexesCompared.length === 2) {
-                        const [i, j] = indexesCompared;
+                    if (comparation.length === 2) {
+                        const [i, j] = comparation;
                         animateArrayAccess(i);
                         animateArrayAccess(j);
                     } else {
-                        const [i] = indexesCompared;
+                        const [i] = comparation;
                         animateArrayAccess(i);
                     }
                 } else {
                     setArray( prevArr => {
-                        const [k, newVal] = indexesCompared;
+                        const [k, newVal] = comparation;
                         const newArr = [...prevArr];
                         newArr[k] = newVal;
                         return newArr;
@@ -69,9 +76,10 @@ const Visualizer = () => {
                 }
             }, idx * ANIMATION_DELAY)
         });
+
         setTimeout(() => {
             animateArrayIsSorted();
-        }, animations.length * ANIMATION_DELAY);
+        }, animations.length * ANIMATION_DELAY * 1.01);
     }
 
     const animateArrayAccess = idx => {
@@ -87,11 +95,11 @@ const Visualizer = () => {
 
     const animateArrayIsSorted = () => {
         const arrBars = document.querySelectorAll(".arr-element");
-        for (let i = 0; i < arrBars.length; i++) {
+        arrBars.forEach((bar, idx) => {
             setTimeout(() => {
-                arrBars[i].style.backgroundColor = SORTED_ARRAY_COLOR;
-            }, i * ANIMATION_DELAY);
-        }
+                bar.style.backgroundColor = SORTED_ARRAY_COLOR;
+            }, idx * ANIMATION_DELAY )
+        })
 
         setTimeout(() => {
             setIsSorted(true);
@@ -135,6 +143,12 @@ const Visualizer = () => {
                 variant="primary"
                 onClick={animateInsertionSort}>
                 Insertion Sort
+            </Button>
+
+            <Button
+                variant="primary"
+                onClick={animateBubbleSort}>
+                Bubble Sort
             </Button>
         </div>
     );
