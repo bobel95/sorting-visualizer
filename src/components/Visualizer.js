@@ -3,7 +3,7 @@ import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
 import getBubbleSortAnimation from "../algorithms/bubbleSort";
-import {Button} from 'react-bootstrap';
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 
 const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 50;
@@ -47,7 +47,6 @@ const Visualizer = () => {
     const animateBubbleSort = () => {
         const animations = getBubbleSortAnimation(array);
         animateArray(animations);
-        // console.log(animations);
     }
 
     const animateArray = animations => {
@@ -113,45 +112,80 @@ const Visualizer = () => {
     }
 
     return (
-        <div className="main-container">
-            <div className="arr-container">
-                {
-                    array.map((value, i) => {
-                        let barHeight = normalizeValues(
-                            value,
-                            arrayLimits.min,
-                            arrayLimits.max,
-                            1,
-                            100
-                        )
+        <Container fluid>
+            <Row style={{height: "100vh"}}>
 
-                        return (
-                            <div
-                                className="arr-element"
-                                key={i}
-                                style={{height: `${barHeight}%`}}>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-            <Button
-                variant="primary"
-                onClick={initializeArray}>
-                Generate Array
-            </Button>
-            <Button
-                variant="primary"
-                onClick={animateInsertionSort}>
-                Insertion Sort
-            </Button>
+                <Col
+                    md="3"
+                    style={{border: "2px solid green"}}
+                    className="controls-container"
+                >
+                    <Button
+                        variant="primary"
+                        onClick={initializeArray}>
+                        Generate Array
+                    </Button>
+                    <Button
+                        variant="primary"
+                        onClick={animateInsertionSort}>
+                        Insertion Sort
+                    </Button>
 
-            <Button
-                variant="primary"
-                onClick={animateBubbleSort}>
-                Bubble Sort
-            </Button>
-        </div>
+                    <Button
+                        variant="primary"
+                        onClick={animateBubbleSort}>
+                        Bubble Sort
+                    </Button>
+
+                    {/*<Form>*/}
+                    {/*    <Form.Label className="my-1 mr-2" htmlFor="algorithm">*/}
+                    {/*        Sorting algorithm:*/}
+                    {/*    </Form.Label>*/}
+                    {/*    <Form.Control*/}
+                    {/*        as="select"*/}
+                    {/*        className="my-1 mr-sm-2"*/}
+                    {/*        id="algorithm"*/}
+                    {/*        custom*/}
+                    {/*    >*/}
+                    {/*        <option value="">Select</option>*/}
+                    {/*        <option value="insertion">Insertion Sort</option>*/}
+                    {/*        <option value="bubble">Bubble Sort</option>*/}
+                    {/*    </Form.Control>*/}
+                    {/*</Form>*/}
+                </Col>
+
+                <Col
+                    md="9"
+                    style={{border: "2px solid blue"}}
+                >
+                    <div className="visualization-container">
+                        <div className="arr-container">
+                            {
+                                array.map((value, i) => {
+                                    let barHeight = normalizeValues(
+                                        value,
+                                        arrayLimits.min,
+                                        arrayLimits.max,
+                                        1,
+                                        100
+                                    )
+
+                                    return (
+                                        <div
+                                            className="arr-element"
+                                            key={i}
+                                            style={{height: `${barHeight}%`}}>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+
+                    </div>
+                </Col>
+            </Row>
+        </Container>
+
     );
 };
 

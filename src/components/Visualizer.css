@@ -1,12 +1,20 @@
-.main-container {
+.visualization-container {
     margin: 0 auto;
-    width: 80%;
+    width: 90%;
     height: 80%;
     border: 3px solid red;
 }
 
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2em 5em;
+    align-content: center;
+    text-align: center;
+}
+
 .arr-container {
-    height: 90%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: flex-end;

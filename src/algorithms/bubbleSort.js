@@ -3,7 +3,6 @@ const getBubbleSortAnimation = arr => {
     const animations = [];
 
     for (let i = 1; i < arrCopy.length; i++) {
-
         for (let j = 0; j < arrCopy.length - i; j++) {
 
             animations.push([[j, j + 1], false]);
