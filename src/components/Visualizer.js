@@ -3,8 +3,9 @@ import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
 import getBubbleSortAnimation from "../algorithms/bubbleSort";
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 import getMergeSortAnimation from "../algorithms/mergeSort";
+import getQuickSortAnimations from "../algorithms/quickSort";
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 
 const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 50;
@@ -53,7 +54,11 @@ const Visualizer = () => {
     const animateMergeSort = () => {
         const animations = getMergeSortAnimation(array);
         animateArray(animations);
+    }
 
+    const animateQuickSort = () => {
+        const animations = getQuickSortAnimations(array);
+        animateArray(animations);
     }
 
     const animateArray = animations => {
@@ -147,8 +152,15 @@ const Visualizer = () => {
                     <Button
                         variant="primary"
                         onClick={animateMergeSort}>
-                        Test Merge Sort
+                        Merge Sort
                     </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={animateQuickSort}>
+                        Test Quick Sort
+                    </Button>
+
 
                     {/*<Form>*/}
                     {/*    <Form.Label className="my-1 mr-2" htmlFor="algorithm">*/}
