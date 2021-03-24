@@ -8,7 +8,7 @@ import getQuickSortAnimations from "../algorithms/quickSort";
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 
 const ANIMATION_DELAY = 5;
-const NUM_OF_ARR_ELEMENTS = 50;
+const NUM_OF_ARR_ELEMENTS = 100;
 const SORTED_ARRAY_COLOR = 'green';
 const COMPARED_BARS_COLOR = 'blue';
 

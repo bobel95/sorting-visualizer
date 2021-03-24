@@ -1,8 +1,9 @@
 const getMergeSortAnimation = array => {
 
+    const arrCopy = [...array];
     const auxArr = [...array];
     const animations = [];
-    mergeSort(array, auxArr, 0, array.length - 1, animations);
+    mergeSort(arrCopy, auxArr, 0, array.length - 1, animations);
 
     return animations;
 }
