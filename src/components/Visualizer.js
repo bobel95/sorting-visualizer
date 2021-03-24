@@ -4,6 +4,7 @@ import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
 import getBubbleSortAnimation from "../algorithms/bubbleSort";
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import getMergeSortAnimation from "../algorithms/mergeSort";
 
 const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 50;
@@ -47,6 +48,12 @@ const Visualizer = () => {
     const animateBubbleSort = () => {
         const animations = getBubbleSortAnimation(array);
         animateArray(animations);
+    }
+
+    const animateMergeSort = () => {
+        const animations = getMergeSortAnimation(array);
+        animateArray(animations);
+
     }
 
     const animateArray = animations => {
@@ -135,6 +142,12 @@ const Visualizer = () => {
                         variant="primary"
                         onClick={animateBubbleSort}>
                         Bubble Sort
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={animateMergeSort}>
+                        Test Merge Sort
                     </Button>
 
                     {/*<Form>*/}
