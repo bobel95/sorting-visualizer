@@ -2,9 +2,12 @@ import {useEffect, useState} from 'react';
 import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
-import {Button} from 'react-bootstrap';
+import getBubbleSortAnimation from "../algorithms/bubbleSort";
+import getMergeSortAnimation from "../algorithms/mergeSort";
+import getQuickSortAnimations from "../algorithms/quickSort";
+import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 
-const ANIMATION_DELAY = 7;
+const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 100;
 const SORTED_ARRAY_COLOR = 'green';
 const COMPARED_BARS_COLOR = 'blue';
@@ -43,25 +46,40 @@ const Visualizer = () => {
         animateArray(animations);
     }
 
+    const animateBubbleSort = () => {
+        const animations = getBubbleSortAnimation(array);
+        animateArray(animations);
+    }
+
+    const animateMergeSort = () => {
+        const animations = getMergeSortAnimation(array);
+        animateArray(animations);
+    }
+
+    const animateQuickSort = () => {
+        const animations = getQuickSortAnimations(array);
+        animateArray(animations);
+    }
+
     const animateArray = animations => {
         if (isSorting) return;
 
         setIsSorting(true);
 
-        animations.forEach( ([indexesCompared, didSwap], idx) => {
+        animations.forEach( ([comparation, didSwap], idx) => {
             setTimeout(() => {
                 if (!didSwap) {
-                    if (indexesCompared.length === 2) {
-                        const [i, j] = indexesCompared;
+                    if (comparation.length === 2) {
+                        const [i, j] = comparation;
                         animateArrayAccess(i);
                         animateArrayAccess(j);
                     } else {
-                        const [i] = indexesCompared;
+                        const [i] = comparation;
                         animateArrayAccess(i);
                     }
                 } else {
                     setArray( prevArr => {
-                        const [k, newVal] = indexesCompared;
+                        const [k, newVal] = comparation;
                         const newArr = [...prevArr];
                         newArr[k] = newVal;
                         return newArr;
@@ -69,9 +87,10 @@ const Visualizer = () => {
                 }
             }, idx * ANIMATION_DELAY)
         });
+
         setTimeout(() => {
             animateArrayIsSorted();
-        }, animations.length * ANIMATION_DELAY);
+        }, animations.length * ANIMATION_DELAY * 1.01);
     }
 
     const animateArrayAccess = idx => {
@@ -87,11 +106,11 @@ const Visualizer = () => {
 
     const animateArrayIsSorted = () => {
         const arrBars = document.querySelectorAll(".arr-element");
-        for (let i = 0; i < arrBars.length; i++) {
+        arrBars.forEach((bar, idx) => {
             setTimeout(() => {
-                arrBars[i].style.backgroundColor = SORTED_ARRAY_COLOR;
-            }, i * ANIMATION_DELAY);
-        }
+                bar.style.backgroundColor = SORTED_ARRAY_COLOR;
+            }, idx * ANIMATION_DELAY )
+        })
 
         setTimeout(() => {
             setIsSorted(true);
@@ -105,38 +124,93 @@ const Visualizer = () => {
     }
 
     return (
-        <div className="main-container">
-            <div className="arr-container">
-                {
-                    array.map((value, i) => {
-                        let barHeight = Math.ceil(
-                            normalizeValues(value, arrayLimits.min, arrayLimits.max)
-                        )
+        <Container fluid>
+            <Row style={{height: "100vh"}}>
 
-                        // If bar height is 0, set it to 1 to avoid invisible bars
-                        if (!barHeight) barHeight = 1;
+                <Col
+                    md="3"
+                    style={{border: "2px solid green"}}
+                    className="controls-container"
+                >
+                    <Button
+                        variant="primary"
+                        onClick={initializeArray}>
+                        Generate Array
+                    </Button>
+                    <Button
+                        variant="primary"
+                        onClick={animateInsertionSort}>
+                        Insertion Sort
+                    </Button>
 
-                        return (
-                            <div
-                                className="arr-element"
-                                key={i}
-                                style={{height: `${barHeight}%`}}>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-            <Button
-                variant="primary"
-                onClick={initializeArray}>
-                Generate Array
-            </Button>
-            <Button
-                variant="primary"
-                onClick={animateInsertionSort}>
-                Insertion Sort
-            </Button>
-        </div>
+                    <Button
+                        variant="primary"
+                        onClick={animateBubbleSort}>
+                        Bubble Sort
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={animateMergeSort}>
+                        Merge Sort
+                    </Button>
+
+                    <Button
+                        variant="primary"
+                        onClick={animateQuickSort}>
+                        Test Quick Sort
+                    </Button>
+
+
+                    {/*<Form>*/}
+                    {/*    <Form.Label className="my-1 mr-2" htmlFor="algorithm">*/}
+                    {/*        Sorting algorithm:*/}
+                    {/*    </Form.Label>*/}
+                    {/*    <Form.Control*/}
+                    {/*        as="select"*/}
+                    {/*        className="my-1 mr-sm-2"*/}
+                    {/*        id="algorithm"*/}
+                    {/*        custom*/}
+                    {/*    >*/}
+                    {/*        <option value="">Select</option>*/}
+                    {/*        <option value="insertion">Insertion Sort</option>*/}
+                    {/*        <option value="bubble">Bubble Sort</option>*/}
+                    {/*    </Form.Control>*/}
+                    {/*</Form>*/}
+                </Col>
+
+                <Col
+                    md="9"
+                    style={{border: "2px solid blue"}}
+                >
+                    <div className="visualization-container">
+                        <div className="arr-container">
+                            {
+                                array.map((value, i) => {
+                                    let barHeight = normalizeValues(
+                                        value,
+                                        arrayLimits.min,
+                                        arrayLimits.max,
+                                        1,
+                                        100
+                                    )
+
+                                    return (
+                                        <div
+                                            className="arr-element"
+                                            key={i}
+                                            style={{height: `${barHeight}%`}}>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+
+                    </div>
+                </Col>
+            </Row>
+        </Container>
+
     );
 };
 
