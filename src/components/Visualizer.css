@@ -23,7 +23,13 @@
 
 .arr-element {
     width: 30px;
-    background-color: gray;
+    background-color: #c3c3c3;
     display: inline;
     margin: 1px;
+    border: 1px solid black;
+}
+
+.btn-main {
+    width: 60%;
+    margin: 0 auto;
 }

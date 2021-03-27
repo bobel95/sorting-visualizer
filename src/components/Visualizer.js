@@ -9,12 +9,13 @@ import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 
 const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 100;
-const SORTED_ARRAY_COLOR = 'green';
-const COMPARED_BARS_COLOR = 'blue';
+const SORTED_ARRAY_COLOR = '#8ee820';
+const COMPARED_BARS_COLOR = '#52fff1';
 
 
 const Visualizer = () => {
     const [array, setArray] = useState([]);
+    const [selectedSort, setSelectedSort] = useState("");
     const [arrayLimits, setArrayLimits] = useState({"min": 1, "max": 500});
     const [isSorting, setIsSorting] = useState(false);
     const [isSorted, setIsSorted] = useState(false);
@@ -41,24 +42,27 @@ const Visualizer = () => {
 
     useEffect(initializeArray, []);
 
-    const animateInsertionSort = () => {
-        const animations = getInsertionSortAnimations(array);
-        animateArray(animations);
+    const animateSort = () => {
+        if (selectedSort) {
+            const animationData = getSortingAnimations(selectedSort);
+            animateArray(animationData);
+        }
+
     }
 
-    const animateBubbleSort = () => {
-        const animations = getBubbleSortAnimation(array);
-        animateArray(animations);
-    }
-
-    const animateMergeSort = () => {
-        const animations = getMergeSortAnimation(array);
-        animateArray(animations);
-    }
-
-    const animateQuickSort = () => {
-        const animations = getQuickSortAnimations(array);
-        animateArray(animations);
+    const getSortingAnimations = (sortType) => {
+        switch (sortType) {
+            case "insertion":
+                return getInsertionSortAnimations(array);
+            case "bubble":
+                return getBubbleSortAnimation(array);
+            case "merge":
+                return getMergeSortAnimation(array);
+            case "quick":
+                return getQuickSortAnimations(array);
+            default:
+                return [];
+        }
     }
 
     const animateArray = animations => {
@@ -120,7 +124,7 @@ const Visualizer = () => {
 
     const resetArrayColor = () => {
         const arrBars = document.querySelectorAll(".arr-element");
-        arrBars.forEach(bar => bar.style.backgroundColor = 'gray');
+        arrBars.forEach(bar => bar.style.backgroundColor = '#c3c3c3');
     }
 
     return (
@@ -133,50 +137,66 @@ const Visualizer = () => {
                     className="controls-container"
                 >
                     <Button
+                        className="btn-main"
                         variant="primary"
                         onClick={initializeArray}>
                         Generate Array
                     </Button>
-                    <Button
-                        variant="primary"
-                        onClick={animateInsertionSort}>
-                        Insertion Sort
-                    </Button>
+                    {/*<Button*/}
+                    {/*    className="btn-main"*/}
+                    {/*    variant="primary"*/}
+                    {/*    onClick={animateInsertionSort}>*/}
+                    {/*    Insertion Sort*/}
+                    {/*</Button>*/}
+
+                    {/*<Button*/}
+                    {/*    className="btn-main"*/}
+                    {/*    variant="primary"*/}
+                    {/*    onClick={animateBubbleSort}>*/}
+                    {/*    Bubble Sort*/}
+                    {/*</Button>*/}
+
+                    {/*<Button*/}
+                    {/*    className="btn-main"*/}
+                    {/*    variant="primary"*/}
+                    {/*    onClick={animateMergeSort}>*/}
+                    {/*    Merge Sort*/}
+                    {/*</Button>*/}
+
+                    {/*<Button*/}
+                    {/*    className="btn-main"*/}
+                    {/*    variant="primary"*/}
+                    {/*    onClick={animateQuickSort}>*/}
+                    {/*    Test Quick Sort*/}
+                    {/*</Button>*/}
+
+
+                    <Form>
+                        <Form.Label className="my-1 mr-2" htmlFor="algorithm">
+                            Sorting algorithm:
+                        </Form.Label>
+                        <Form.Control
+                            as="select"
+                            className="my-1 mr-sm-2"
+                            id="algorithm"
+                            custom
+                            onChange={e => setSelectedSort(e.target.value)}
+                        >
+                            <option value="">Select</option>
+                            <option value="insertion">Insertion Sort</option>
+                            <option value="bubble">Bubble Sort</option>
+                            <option value="quick">Quick Sort</option>
+                            <option value="merge">Merge Sort</option>
+
+                        </Form.Control>
+                    </Form>
 
                     <Button
+                        className="btn-main"
                         variant="primary"
-                        onClick={animateBubbleSort}>
-                        Bubble Sort
+                        onClick={animateSort}>
+                        Sort
                     </Button>
-
-                    <Button
-                        variant="primary"
-                        onClick={animateMergeSort}>
-                        Merge Sort
-                    </Button>
-
-                    <Button
-                        variant="primary"
-                        onClick={animateQuickSort}>
-                        Test Quick Sort
-                    </Button>
-
-
-                    {/*<Form>*/}
-                    {/*    <Form.Label className="my-1 mr-2" htmlFor="algorithm">*/}
-                    {/*        Sorting algorithm:*/}
-                    {/*    </Form.Label>*/}
-                    {/*    <Form.Control*/}
-                    {/*        as="select"*/}
-                    {/*        className="my-1 mr-sm-2"*/}
-                    {/*        id="algorithm"*/}
-                    {/*        custom*/}
-                    {/*    >*/}
-                    {/*        <option value="">Select</option>*/}
-                    {/*        <option value="insertion">Insertion Sort</option>*/}
-                    {/*        <option value="bubble">Bubble Sort</option>*/}
-                    {/*    </Form.Control>*/}
-                    {/*</Form>*/}
                 </Col>
 
                 <Col
