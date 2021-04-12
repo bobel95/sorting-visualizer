@@ -191,6 +191,7 @@ const Visualizer = () => {
                 <Col
                     md="9"
                     style={{border: "2px solid blue"}}
+                    id="right-side-container"
                 >
                     <div className="visualization-container">
                         <div className="arr-container">

@@ -1,9 +1,13 @@
-
+#right-side-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .visualization-container {
     margin: 0 auto;
-    width: 90%;
-    height: 80%;
+    width: 95%;
+    height: 95%;
     border: 3px solid red;
 }
 
