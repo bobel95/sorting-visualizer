@@ -7,6 +7,7 @@ import getMergeSortAnimation from "../algorithms/mergeSort";
 import getQuickSortAnimations from "../algorithms/quickSort";
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
 import PageTitle from "../layout/PageTitle";
+import InputSlider from "./InputSlider";
 
 const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 100;
@@ -16,6 +17,7 @@ const COMPARED_BARS_COLOR = '#52fff1';
 
 
 const Visualizer = () => {
+    const [numOfArrElements, setNumOfArrElements] = useState(NUM_OF_ARR_ELEMENTS);
     const [array, setArray] = useState([]);
     const [selectedSort, setSelectedSort] = useState("");
     const [arrayLimits, setArrayLimits] = useState({"min": 1, "max": MAX_VAL_OF_ARRAY_ELEMENT});
@@ -28,7 +30,7 @@ const Visualizer = () => {
 
         setIsSorted(false);
         const arr = [];
-        for (let i = 0; i < NUM_OF_ARR_ELEMENTS; i++) {
+        for (let i = 0; i < numOfArrElements; i++) {
             arr.push(randomIntInRange(1, MAX_VAL_OF_ARRAY_ELEMENT));
         }
         setArray(arr);
@@ -42,7 +44,7 @@ const Visualizer = () => {
             Math.random() * (max - min + 1) + min
         );
 
-    useEffect(initializeArray, []);
+    useEffect(initializeArray, [numOfArrElements]);
 
     const animateSort = () => {
         if (selectedSort) {
@@ -176,6 +178,21 @@ const Visualizer = () => {
 
                             </Form.Control>
                         </Form>
+
+                        <hr/>
+
+                        <div className="controls-element">
+                            <h5 className="form-label">
+                                Number of array elements
+                            </h5>
+                            <InputSlider
+                                value={numOfArrElements}
+                                setValue={setNumOfArrElements}
+                                min={10}
+                                max={100}
+                            />
+                        </div>
+
                     </Row>
 
                     <Row id="sort-btn-container">
