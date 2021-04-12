@@ -10,13 +10,14 @@ import PageTitle from "../layout/PageTitle";
 import InputSlider from "./InputSlider";
 
 const ANIMATION_DELAY = 5;
-const NUM_OF_ARR_ELEMENTS = 100;
+const NUM_OF_ARR_ELEMENTS = 75;
 const MAX_VAL_OF_ARRAY_ELEMENT = 500;
 const SORTED_ARRAY_COLOR = '#8ee820';
 const COMPARED_BARS_COLOR = '#52fff1';
 
 
 const Visualizer = () => {
+    const [animationDelay, setAnimationDelay] = useState(ANIMATION_DELAY);
     const [numOfArrElements, setNumOfArrElements] = useState(NUM_OF_ARR_ELEMENTS);
     const [array, setArray] = useState([]);
     const [selectedSort, setSelectedSort] = useState("");
@@ -93,23 +94,23 @@ const Visualizer = () => {
                         return newArr;
                     })
                 }
-            }, idx * ANIMATION_DELAY)
+            }, idx * animationDelay)
         });
 
         setTimeout(() => {
             animateArrayIsSorted();
-        }, animations.length * ANIMATION_DELAY * 1.01);
+        }, animations.length * animationDelay * 1.01);
     }
 
     const animateArrayAccess = idx => {
         const arrBars = document.querySelectorAll(".arr-element");
         setTimeout(() => {
             arrBars[idx].style.backgroundColor = COMPARED_BARS_COLOR;
-        }, ANIMATION_DELAY)
+        }, animationDelay)
 
         setTimeout(() => {
             arrBars[idx].style.backgroundColor = '';
-        }, ANIMATION_DELAY * 2)
+        }, animationDelay * 2)
     }
 
     const animateArrayIsSorted = () => {
@@ -117,13 +118,13 @@ const Visualizer = () => {
         arrBars.forEach((bar, idx) => {
             setTimeout(() => {
                 bar.style.backgroundColor = SORTED_ARRAY_COLOR;
-            }, idx * ANIMATION_DELAY )
+            }, idx * animationDelay )
         })
 
         setTimeout(() => {
             setIsSorted(true);
             setIsSorting(false);
-        }, arrBars.length * ANIMATION_DELAY);
+        }, arrBars.length * animationDelay);
     }
 
     const resetArrayColor = () => {
@@ -189,7 +190,21 @@ const Visualizer = () => {
                                 value={numOfArrElements}
                                 setValue={setNumOfArrElements}
                                 min={10}
-                                max={100}
+                                max={150}
+                            />
+                        </div>
+
+                        <hr/>
+
+                        <div className="controls-element">
+                            <h5 className="form-label">
+                                Animation delay
+                            </h5>
+                            <InputSlider
+                                value={animationDelay}
+                                setValue={setAnimationDelay}
+                                min={1}
+                                max={10}
                             />
                         </div>
 
