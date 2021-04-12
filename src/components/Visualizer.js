@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
@@ -6,9 +6,11 @@ import getBubbleSortAnimation from "../algorithms/bubbleSort";
 import getMergeSortAnimation from "../algorithms/mergeSort";
 import getQuickSortAnimations from "../algorithms/quickSort";
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import PageTitle from "../layout/PageTitle";
 
 const ANIMATION_DELAY = 5;
 const NUM_OF_ARR_ELEMENTS = 100;
+const MAX_VAL_OF_ARRAY_ELEMENT = 500;
 const SORTED_ARRAY_COLOR = '#8ee820';
 const COMPARED_BARS_COLOR = '#52fff1';
 
@@ -16,7 +18,7 @@ const COMPARED_BARS_COLOR = '#52fff1';
 const Visualizer = () => {
     const [array, setArray] = useState([]);
     const [selectedSort, setSelectedSort] = useState("");
-    const [arrayLimits, setArrayLimits] = useState({"min": 1, "max": 500});
+    const [arrayLimits, setArrayLimits] = useState({"min": 1, "max": MAX_VAL_OF_ARRAY_ELEMENT});
     const [isSorting, setIsSorting] = useState(false);
     const [isSorted, setIsSorted] = useState(false);
 
@@ -27,7 +29,7 @@ const Visualizer = () => {
         setIsSorted(false);
         const arr = [];
         for (let i = 0; i < NUM_OF_ARR_ELEMENTS; i++) {
-            arr.push(randomIntInRange(1, 500));
+            arr.push(randomIntInRange(1, MAX_VAL_OF_ARRAY_ELEMENT));
         }
         setArray(arr);
 
@@ -134,71 +136,58 @@ const Visualizer = () => {
                 <Col
                     md="3"
                     style={{border: "2px solid green"}}
-                    className="controls-container"
+                    id="left-side-container"
                 >
-                    <Button
-                        className="btn-main"
-                        variant="primary"
-                        onClick={initializeArray}>
-                        Generate Array
-                    </Button>
-                    {/*<Button*/}
-                    {/*    className="btn-main"*/}
-                    {/*    variant="primary"*/}
-                    {/*    onClick={animateInsertionSort}>*/}
-                    {/*    Insertion Sort*/}
-                    {/*</Button>*/}
+                    <Row>
+                        <PageTitle/>
+                    </Row>
+                    <Row className="controls-container">
 
-                    {/*<Button*/}
-                    {/*    className="btn-main"*/}
-                    {/*    variant="primary"*/}
-                    {/*    onClick={animateBubbleSort}>*/}
-                    {/*    Bubble Sort*/}
-                    {/*</Button>*/}
+                        <div className="controls-element">
+                            <h5 className="form-label">
+                                Generate a new array
+                            </h5>
+                            <Button
+                                className="btn-main"
+                                variant="primary"
+                                onClick={initializeArray}>
+                                Generate Array
+                            </Button>
+                        </div>
 
-                    {/*<Button*/}
-                    {/*    className="btn-main"*/}
-                    {/*    variant="primary"*/}
-                    {/*    onClick={animateMergeSort}>*/}
-                    {/*    Merge Sort*/}
-                    {/*</Button>*/}
+                        <hr/>
+                        <Form className="controls-element">
+                            <h5 className="form-label">
+                                Select a sorting algorithm
+                            </h5>
 
-                    {/*<Button*/}
-                    {/*    className="btn-main"*/}
-                    {/*    variant="primary"*/}
-                    {/*    onClick={animateQuickSort}>*/}
-                    {/*    Test Quick Sort*/}
-                    {/*</Button>*/}
+                            <Form.Control
+                                as="select"
+                                className="my-1 mr-sm-2"
+                                id="algorithm"
+                                custom
+                                onChange={e => setSelectedSort(e.target.value)}
+                            >
+                                <option value="">Select</option>
+                                <option value="insertion">Insertion Sort</option>
+                                <option value="bubble">Bubble Sort</option>
+                                <option value="quick">Quick Sort</option>
+                                <option value="merge">Merge Sort</option>
 
+                            </Form.Control>
+                        </Form>
+                    </Row>
 
-                    <Form>
-                        <Form.Label className="my-1 mr-2" htmlFor="algorithm">
-                            Sorting algorithm:
-                        </Form.Label>
-                        <Form.Control
-                            as="select"
-                            className="my-1 mr-sm-2"
-                            id="algorithm"
-                            custom
-                            onChange={e => setSelectedSort(e.target.value)}
-                        >
-                            <option value="">Select</option>
-                            <option value="insertion">Insertion Sort</option>
-                            <option value="bubble">Bubble Sort</option>
-                            <option value="quick">Quick Sort</option>
-                            <option value="merge">Merge Sort</option>
-
-                        </Form.Control>
-                    </Form>
-
-                    <Button
-                        className="btn-main"
-                        variant="primary"
-                        onClick={animateSort}>
-                        Sort
-                    </Button>
+                    <Row id="sort-btn-container">
+                        <Button
+                            className="btn-main"
+                            variant="success"
+                            onClick={animateSort}
+                            id="sort-btn">
+                            Sort
+                        </Button>
+                    </Row>
                 </Col>
-
                 <Col
                     md="9"
                     style={{border: "2px solid blue"}}
@@ -225,7 +214,6 @@ const Visualizer = () => {
                                 })
                             }
                         </div>
-
                     </div>
                 </Col>
             </Row>
