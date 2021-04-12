@@ -51,8 +51,9 @@ const Visualizer = () => {
         if (selectedSort) {
             const animationData = getSortingAnimations(selectedSort);
             animateArray(animationData);
+        } else {
+            document.querySelector("#algorithm").style.border = "2px solid red";
         }
-
     }
 
     const getSortingAnimations = (sortType) => {
@@ -169,7 +170,13 @@ const Visualizer = () => {
                                 className="my-1 mr-sm-2"
                                 id="algorithm"
                                 custom
-                                onChange={e => setSelectedSort(e.target.value)}
+                                onChange={e => {
+                                    setSelectedSort(e.target.value);
+
+                                    if (e.target.value) {
+                                        document.querySelector("#algorithm").style.border = "";
+                                    }
+                                }}
                             >
                                 <option value="">Select</option>
                                 <option value="insertion">Insertion Sort</option>
@@ -191,6 +198,7 @@ const Visualizer = () => {
                                 setValue={setNumOfArrElements}
                                 min={10}
                                 max={150}
+                                isDisabled={isSorting}
                             />
                         </div>
 
@@ -205,6 +213,7 @@ const Visualizer = () => {
                                 setValue={setAnimationDelay}
                                 min={1}
                                 max={10}
+                                isDisabled={isSorting}
                             />
                         </div>
 

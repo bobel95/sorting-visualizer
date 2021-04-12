@@ -3,7 +3,7 @@ import RangeSlider from 'react-bootstrap-range-slider';
 
 const InputSlider = (props) => {
 
-    const {setValue, value, min, max} = props;
+    const {setValue, value, min, max, isDisabled} = props;
 
     return (
         <RangeSlider
@@ -11,6 +11,7 @@ const InputSlider = (props) => {
             onChange={e => setValue(e.target.value)}
             min={min}
             max={max}
+            disabled={isDisabled}
         />
     );
 };
