@@ -139,7 +139,7 @@ const Visualizer = () => {
 
                 <Col
                     md="3"
-                    style={{border: "2px solid green"}}
+                    // style={{border: "2px solid green"}}
                     id="left-side-container"
                 >
                     <Row>
@@ -207,7 +207,10 @@ const Visualizer = () => {
                         <div className="controls-element">
                             <h5 className="form-label">
                                 Animation delay
+
                             </h5>
+                            <small>(lower is faster)</small>
+                            <br/>
                             <InputSlider
                                 value={animationDelay}
                                 setValue={setAnimationDelay}
@@ -231,7 +234,7 @@ const Visualizer = () => {
                 </Col>
                 <Col
                     md="9"
-                    style={{border: "2px solid blue"}}
+                    // style={{border: "2px solid blue"}}
                     id="right-side-container"
                 >
                     <div className="visualization-container">
