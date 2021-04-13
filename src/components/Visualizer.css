@@ -1,16 +1,37 @@
+#right-side-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .visualization-container {
     margin: 0 auto;
-    width: 90%;
-    height: 80%;
+    width: 95%;
+    height: 95%;
     border: 3px solid red;
+}
+
+#left-side-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .controls-container {
     display: flex;
     flex-direction: column;
-    padding: 2em 5em;
+    flex: 1;
+    padding: 2em 1em;
     align-content: center;
     text-align: center;
+}
+
+.controls-element {
+    margin-top: auto;
+}
+
+#sort-btn {
+    margin: 4rem auto;
+    padding: 10px;
 }
 
 .arr-container {
@@ -23,7 +44,13 @@
 
 .arr-element {
     width: 30px;
-    background-color: gray;
+    background-color: #c3c3c3;
     display: inline;
     margin: 1px;
+    border: 1px solid black;
+}
+
+.btn-main {
+    width: 60%;
+    margin: 0 auto;
 }

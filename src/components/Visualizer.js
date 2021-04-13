@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './Visualizer.css';
 import normalizeValues from "../util/normalizeValues";
 import getInsertionSortAnimations from "../algorithms/insertionSort";
@@ -6,16 +6,22 @@ import getBubbleSortAnimation from "../algorithms/bubbleSort";
 import getMergeSortAnimation from "../algorithms/mergeSort";
 import getQuickSortAnimations from "../algorithms/quickSort";
 import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import PageTitle from "../layout/PageTitle";
+import InputSlider from "./InputSlider";
 
 const ANIMATION_DELAY = 5;
-const NUM_OF_ARR_ELEMENTS = 100;
-const SORTED_ARRAY_COLOR = 'green';
-const COMPARED_BARS_COLOR = 'blue';
+const NUM_OF_ARR_ELEMENTS = 75;
+const MAX_VAL_OF_ARRAY_ELEMENT = 500;
+const SORTED_ARRAY_COLOR = '#8ee820';
+const COMPARED_BARS_COLOR = '#52fff1';
 
 
 const Visualizer = () => {
+    const [animationDelay, setAnimationDelay] = useState(ANIMATION_DELAY);
+    const [numOfArrElements, setNumOfArrElements] = useState(NUM_OF_ARR_ELEMENTS);
     const [array, setArray] = useState([]);
-    const [arrayLimits, setArrayLimits] = useState({"min": 1, "max": 500});
+    const [selectedSort, setSelectedSort] = useState("");
+    const [arrayLimits, setArrayLimits] = useState({"min": 1, "max": MAX_VAL_OF_ARRAY_ELEMENT});
     const [isSorting, setIsSorting] = useState(false);
     const [isSorted, setIsSorted] = useState(false);
 
@@ -25,8 +31,8 @@ const Visualizer = () => {
 
         setIsSorted(false);
         const arr = [];
-        for (let i = 0; i < NUM_OF_ARR_ELEMENTS; i++) {
-            arr.push(randomIntInRange(1, 500));
+        for (let i = 0; i < numOfArrElements; i++) {
+            arr.push(randomIntInRange(1, MAX_VAL_OF_ARRAY_ELEMENT));
         }
         setArray(arr);
 
@@ -39,26 +45,30 @@ const Visualizer = () => {
             Math.random() * (max - min + 1) + min
         );
 
-    useEffect(initializeArray, []);
+    useEffect(initializeArray, [numOfArrElements]);
 
-    const animateInsertionSort = () => {
-        const animations = getInsertionSortAnimations(array);
-        animateArray(animations);
+    const animateSort = () => {
+        if (selectedSort) {
+            const animationData = getSortingAnimations(selectedSort);
+            animateArray(animationData);
+        } else {
+            document.querySelector("#algorithm").style.border = "2px solid red";
+        }
     }
 
-    const animateBubbleSort = () => {
-        const animations = getBubbleSortAnimation(array);
-        animateArray(animations);
-    }
-
-    const animateMergeSort = () => {
-        const animations = getMergeSortAnimation(array);
-        animateArray(animations);
-    }
-
-    const animateQuickSort = () => {
-        const animations = getQuickSortAnimations(array);
-        animateArray(animations);
+    const getSortingAnimations = (sortType) => {
+        switch (sortType) {
+            case "insertion":
+                return getInsertionSortAnimations(array);
+            case "bubble":
+                return getBubbleSortAnimation(array);
+            case "merge":
+                return getMergeSortAnimation(array);
+            case "quick":
+                return getQuickSortAnimations(array);
+            default:
+                return [];
+        }
     }
 
     const animateArray = animations => {
@@ -85,23 +95,23 @@ const Visualizer = () => {
                         return newArr;
                     })
                 }
-            }, idx * ANIMATION_DELAY)
+            }, idx * animationDelay)
         });
 
         setTimeout(() => {
             animateArrayIsSorted();
-        }, animations.length * ANIMATION_DELAY * 1.01);
+        }, animations.length * animationDelay * 1.01);
     }
 
     const animateArrayAccess = idx => {
         const arrBars = document.querySelectorAll(".arr-element");
         setTimeout(() => {
             arrBars[idx].style.backgroundColor = COMPARED_BARS_COLOR;
-        }, ANIMATION_DELAY)
+        }, animationDelay)
 
         setTimeout(() => {
             arrBars[idx].style.backgroundColor = '';
-        }, ANIMATION_DELAY * 2)
+        }, animationDelay * 2)
     }
 
     const animateArrayIsSorted = () => {
@@ -109,18 +119,18 @@ const Visualizer = () => {
         arrBars.forEach((bar, idx) => {
             setTimeout(() => {
                 bar.style.backgroundColor = SORTED_ARRAY_COLOR;
-            }, idx * ANIMATION_DELAY )
+            }, idx * animationDelay )
         })
 
         setTimeout(() => {
             setIsSorted(true);
             setIsSorting(false);
-        }, arrBars.length * ANIMATION_DELAY);
+        }, arrBars.length * animationDelay);
     }
 
     const resetArrayColor = () => {
         const arrBars = document.querySelectorAll(".arr-element");
-        arrBars.forEach(bar => bar.style.backgroundColor = 'gray');
+        arrBars.forEach(bar => bar.style.backgroundColor = '#c3c3c3');
     }
 
     return (
@@ -130,58 +140,99 @@ const Visualizer = () => {
                 <Col
                     md="3"
                     style={{border: "2px solid green"}}
-                    className="controls-container"
+                    id="left-side-container"
                 >
-                    <Button
-                        variant="primary"
-                        onClick={initializeArray}>
-                        Generate Array
-                    </Button>
-                    <Button
-                        variant="primary"
-                        onClick={animateInsertionSort}>
-                        Insertion Sort
-                    </Button>
+                    <Row>
+                        <PageTitle/>
+                    </Row>
+                    <Row className="controls-container">
 
-                    <Button
-                        variant="primary"
-                        onClick={animateBubbleSort}>
-                        Bubble Sort
-                    </Button>
+                        <div className="controls-element">
+                            <h5 className="form-label">
+                                Generate a new array
+                            </h5>
+                            <Button
+                                className="btn-main"
+                                variant="primary"
+                                onClick={initializeArray}>
+                                Generate Array
+                            </Button>
+                        </div>
 
-                    <Button
-                        variant="primary"
-                        onClick={animateMergeSort}>
-                        Merge Sort
-                    </Button>
+                        <hr/>
+                        <Form className="controls-element">
+                            <h5 className="form-label">
+                                Select a sorting algorithm
+                            </h5>
 
-                    <Button
-                        variant="primary"
-                        onClick={animateQuickSort}>
-                        Test Quick Sort
-                    </Button>
+                            <Form.Control
+                                as="select"
+                                className="my-1 mr-sm-2"
+                                id="algorithm"
+                                custom
+                                onChange={e => {
+                                    setSelectedSort(e.target.value);
 
+                                    if (e.target.value) {
+                                        document.querySelector("#algorithm").style.border = "";
+                                    }
+                                }}
+                            >
+                                <option value="">Select</option>
+                                <option value="insertion">Insertion Sort</option>
+                                <option value="bubble">Bubble Sort</option>
+                                <option value="quick">Quick Sort</option>
+                                <option value="merge">Merge Sort</option>
 
-                    {/*<Form>*/}
-                    {/*    <Form.Label className="my-1 mr-2" htmlFor="algorithm">*/}
-                    {/*        Sorting algorithm:*/}
-                    {/*    </Form.Label>*/}
-                    {/*    <Form.Control*/}
-                    {/*        as="select"*/}
-                    {/*        className="my-1 mr-sm-2"*/}
-                    {/*        id="algorithm"*/}
-                    {/*        custom*/}
-                    {/*    >*/}
-                    {/*        <option value="">Select</option>*/}
-                    {/*        <option value="insertion">Insertion Sort</option>*/}
-                    {/*        <option value="bubble">Bubble Sort</option>*/}
-                    {/*    </Form.Control>*/}
-                    {/*</Form>*/}
+                            </Form.Control>
+                        </Form>
+
+                        <hr/>
+
+                        <div className="controls-element">
+                            <h5 className="form-label">
+                                Number of array elements
+                            </h5>
+                            <InputSlider
+                                value={numOfArrElements}
+                                setValue={setNumOfArrElements}
+                                min={10}
+                                max={150}
+                                isDisabled={isSorting}
+                            />
+                        </div>
+
+                        <hr/>
+
+                        <div className="controls-element">
+                            <h5 className="form-label">
+                                Animation delay
+                            </h5>
+                            <InputSlider
+                                value={animationDelay}
+                                setValue={setAnimationDelay}
+                                min={1}
+                                max={10}
+                                isDisabled={isSorting}
+                            />
+                        </div>
+
+                    </Row>
+
+                    <Row id="sort-btn-container">
+                        <Button
+                            className="btn-main"
+                            variant="success"
+                            onClick={animateSort}
+                            id="sort-btn">
+                            Sort
+                        </Button>
+                    </Row>
                 </Col>
-
                 <Col
                     md="9"
                     style={{border: "2px solid blue"}}
+                    id="right-side-container"
                 >
                     <div className="visualization-container">
                         <div className="arr-container">
@@ -205,7 +256,6 @@ const Visualizer = () => {
                                 })
                             }
                         </div>
-
                     </div>
                 </Col>
             </Row>
