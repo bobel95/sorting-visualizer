@@ -1,10 +1,21 @@
-# Getting Started with Create React App
+# Sorting Visualizer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<table>
+<tr>
+<td>
+  A web app that lets you visualize how different sorting algorithms work. 
 
-## Available Scripts
+[Imgur](https://imgur.com/IPLLV6x)
+</td>
+</tr>
+</table>
 
-In the project directory, you can run:
+## Sorting algorithms implemented:
+
+1. Bubble Sort
+2. Insertion Sort
+3. Merge Sort
+4. Quick Sort
 
 ### `npm start`
 
