@@ -5,10 +5,11 @@
 <td>
   A web app that lets you visualize how different sorting algorithms work. 
 
-![Sorting Visualizer](https://github.com/bobel95/sorting-algorithms-visualization/blob/main/public/sorting-visualizer.png?raw=true)
 </td>
 </tr>
 </table>
+
+![Sorting Visualizer](https://github.com/bobel95/sorting-algorithms-visualization/blob/main/public/sorting-visualizer.png?raw=true)
 
 ## Sorting algorithms implemented:
 
