@@ -5,7 +5,7 @@
 <td>
   A web app that lets you visualize how different sorting algorithms work. 
 
-![Sorting Visualizer](https://bobel95.github.io/sorting-algorithms-visualization/public/sortig-visualizer.png)
+![Sorting Visualizer](https://github.com/bobel95/sorting-algorithms-visualization/blob/main/public/sorting-visualizer.png?raw=true)
 </td>
 </tr>
 </table>
