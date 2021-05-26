@@ -5,6 +5,12 @@
 <td>
   A web app that lets you visualize how different sorting algorithms work. 
 
+This is a project that I've wanted to build since I first learned about how various sorting algorithms work.
+
+Building this visualizer helped me gain a better understanding of sorting algorithms, their respective complexity and efficiency.
+
+
+
 ![Sorting Visualizer](https://github.com/bobel95/sorting-algorithms-visualization/blob/main/public/sorting-visualizer.png?raw=true)
 </td>
 </tr>
