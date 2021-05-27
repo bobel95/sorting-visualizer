@@ -139,7 +139,6 @@ const Visualizer = () => {
 
                 <Col
                     md="3"
-                    // style={{border: "2px solid green"}}
                     id="left-side-container"
                 >
                     <Row>
@@ -154,7 +153,8 @@ const Visualizer = () => {
                             <Button
                                 className="btn-main"
                                 variant="primary"
-                                onClick={initializeArray}>
+                                onClick={initializeArray}
+                            >
                                 Generate Array
                             </Button>
                         </div>
